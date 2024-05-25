@@ -85,7 +85,7 @@ namespace Mango.Services.CouponAPI.Controllers
         }
 
         [HttpPost]
-        public ResponseDto Get([FromBody] CouponDto couponDto)
+        public ResponseDto post([FromBody] CouponDto couponDto)
         {
             try
             {
