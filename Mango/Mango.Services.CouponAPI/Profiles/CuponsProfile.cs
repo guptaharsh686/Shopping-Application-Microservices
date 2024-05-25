@@ -10,6 +10,8 @@ namespace Mango.Services.CouponAPI.Profiles
         {
             //Source -> Dist
             CreateMap<Coupon, CouponDto>();
+            CreateMap<CouponDto, Coupon>();
+
         }
     }
 }
