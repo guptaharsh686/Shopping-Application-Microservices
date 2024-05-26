@@ -2,6 +2,7 @@
 using Mango.Web.Service.IService;
 using Newtonsoft.Json;
 using System.Net;
+using System.Text;
 using static Mango.Web.Utility.StaticDetails;
 
 namespace Mango.Web.Service
@@ -26,7 +27,7 @@ namespace Mango.Web.Service
                 message.RequestUri = new Uri(requestDto.Url);
                 if (requestDto.Data != null)
                 {
-                    message.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data));
+                    message.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8, "application/json");
                 }
 
                 switch (requestDto.ApiType)
