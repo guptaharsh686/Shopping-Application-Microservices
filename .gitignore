@@ -7,3 +7,5 @@
 /Mango/.vs/Mango
 /Mango/Mango.Web/bin
 /Mango/Mango.Web/obj
+/Mango/Mango.Services.AuthAPI/bin/
+/Mango/Mango.Services.AuthAPI/obj
