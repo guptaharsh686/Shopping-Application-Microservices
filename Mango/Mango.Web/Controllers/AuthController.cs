@@ -38,6 +38,7 @@ namespace Mango.Web.Controllers
             }
             else
             {
+                TempData["error"] = "Login Failed";
                 ModelState.AddModelError("CustomError", response.Message);
                 return View(obj);
             }
