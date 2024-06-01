@@ -46,8 +46,7 @@ namespace Mango.Web.Controllers
             }
             else
             {
-                TempData["error"] = "Login Failed";
-                ModelState.AddModelError("CustomError", response.Message);
+                TempData["error"] = response.Message;
                 return View(obj);
             }
         }
@@ -106,7 +105,7 @@ namespace Mango.Web.Controllers
                 new SelectListItem{ Text=StaticDetails.RoleCustomer, Value=StaticDetails.RoleCustomer }
 
             };
-            TempData["error"] = "An error occured please try again";
+            TempData["error"] = response.Message;
 
             ViewBag.RoleList = roleList;
 
