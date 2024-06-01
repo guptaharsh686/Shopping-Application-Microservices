@@ -12,8 +12,13 @@ builder.Services.AddHttpClient();
 
 //Add httpclient for coupon service
 builder.Services.AddHttpClient<ICouponService,CouponService>();
+builder.Services.AddHttpClient<IAuthService, AuthService>();
+
+
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 StaticDetails.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
 StaticDetails.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
