@@ -22,6 +22,7 @@ builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
 
 
+
 StaticDetails.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
 StaticDetails.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
 
