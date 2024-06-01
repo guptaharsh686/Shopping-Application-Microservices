@@ -68,10 +68,12 @@ namespace Mango.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-
-            return View();
+            await HttpContext.SignOutAsync();
+            _tokenProvider.ClearToken();
+            TempData["success"] = "Logged out successfully";
+            return RedirectToAction("Index","Home");
         }
 
         [HttpPost]
