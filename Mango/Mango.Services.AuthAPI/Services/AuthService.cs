@@ -13,12 +13,14 @@ namespace Mango.Services.AuthAPI.Services
         //helper methds provided by .net identity for easier user and role management functionality
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthService(AppDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthService(AppDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,IJwtTokenGenerator jwtTokenGenerator)
         {
             _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtTokenGenerator = jwtTokenGenerator;
         }
 
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
@@ -37,6 +39,7 @@ namespace Mango.Services.AuthAPI.Services
             }
 
             //if user was found, Generate JWT Token
+            var token = _jwtTokenGenerator.GenerateToken(user);
             //populate the userdto to return and assign to response
 
             UserDto userDto = new UserDto()
@@ -50,7 +53,7 @@ namespace Mango.Services.AuthAPI.Services
             LoginResponseDto loginResponseDto = new LoginResponseDto()
             {
                 User = userDto,
-                Token = ""
+                Token = token
             };
 
             return loginResponseDto;
