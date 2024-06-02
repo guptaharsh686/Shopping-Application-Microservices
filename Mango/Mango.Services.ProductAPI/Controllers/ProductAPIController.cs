@@ -38,8 +38,30 @@ namespace Mango.Services.ProductAPI.Controllers
                 responseDto.Message = ex.Message;
                 responseDto.IsSuccess = false;
             }
-            
 
+
+            return responseDto;
+        }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public ResponseDto get(int id)
+        {
+            try
+            {
+                var product = _db.Products.FirstOrDefault(p => p.ProductId == id);
+                if (product == null)
+                {
+                    responseDto.IsSuccess = false;
+                }
+                responseDto.Result = _mapper.Map<ProductDto>(product);
+
+            }
+            catch (Exception ex)
+            {
+                responseDto.IsSuccess = false;
+                responseDto.Message = ex.Message;
+            }
             return responseDto;
         }
 
