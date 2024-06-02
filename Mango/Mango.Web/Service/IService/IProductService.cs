@@ -8,5 +8,7 @@ namespace Mango.Web.Service.IService
         Task<ResponseDto?> UpdateProduct(ProductDto productDto);
         Task<ResponseDto?> DeleteProduct(int id);
         Task<ResponseDto?> GetAllProducts();
+        Task<ResponseDto?> GetProductById(int id);
+
     }
 }
