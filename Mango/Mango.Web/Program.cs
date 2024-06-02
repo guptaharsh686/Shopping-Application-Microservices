@@ -11,15 +11,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 
-//Add httpclient for coupon service
+//Add httpclient for services
 builder.Services.AddHttpClient<ICouponService,CouponService>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
+builder.Services.AddHttpClient<IProductService, ProductService>();
 
 
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie( opt =>
 {
     opt.ExpireTimeSpan = TimeSpan.FromHours(10);
