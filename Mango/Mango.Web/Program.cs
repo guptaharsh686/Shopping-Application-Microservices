@@ -32,6 +32,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 StaticDetails.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
 StaticDetails.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
+StaticDetails.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
 
 
 
