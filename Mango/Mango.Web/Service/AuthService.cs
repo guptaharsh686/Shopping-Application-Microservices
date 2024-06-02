@@ -1,8 +1,9 @@
 ﻿using Mango.Web.Models;
+using Mango.Web.Service.IService;
 using Mango.Web.Utility;
 using static Mango.Web.Utility.StaticDetails;
 
-namespace Mango.Web.Service.IService
+namespace Mango.Web.Service
 {
     public class AuthService : IAuthService
     {
@@ -19,7 +20,7 @@ namespace Mango.Web.Service.IService
             {
                 ApiType = ApiType.POST,
                 Data = registerationRequestDto,
-                Url = StaticDetails.AuthAPIBase + "/api/auth/AssignRole"
+                Url = AuthAPIBase + "/api/auth/AssignRole"
             });
         }
 
@@ -29,7 +30,7 @@ namespace Mango.Web.Service.IService
             {
                 ApiType = ApiType.POST,
                 Data = loginRequestDto,
-                Url = StaticDetails.AuthAPIBase + "/api/auth/login"
+                Url = AuthAPIBase + "/api/auth/login"
             }, withBearer: false);
         }
 
@@ -39,8 +40,8 @@ namespace Mango.Web.Service.IService
             {
                 ApiType = ApiType.POST,
                 Data = registerationRequestDto,
-                Url = StaticDetails.AuthAPIBase + "/api/auth/register"
-            },withBearer: false);
+                Url = AuthAPIBase + "/api/auth/register"
+            }, withBearer: false);
         }
     }
 }
