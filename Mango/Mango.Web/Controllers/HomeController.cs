@@ -1,3 +1,4 @@
+using IdentityModel;
 using Mango.Web.Models;
 using Mango.Web.Service.IService;
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +12,12 @@ namespace Mango.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 		private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-		public HomeController(IProductService productService)
+        public HomeController(IProductService productService, ICartService cartService)
         {
             _productService = productService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
@@ -49,6 +52,46 @@ namespace Mango.Web.Controllers
             }
             return View(product);
         }
+
+        [HttpPost]
+        [Authorize]
+        [ActionName("ProductDetails")]
+        public async Task<IActionResult> ProductDetails(ProductDto productDto)
+        {
+            CartDto cartDto = new CartDto()
+            {
+                CartHeader = new CartHeaderDto()
+                {
+                    UserId = User.Claims.Where(u => u.Type == JwtClaimTypes.Subject)?.FirstOrDefault()?.Value
+                }
+            };
+
+            CartDetailsDto cartDetailsDto = new CartDetailsDto()
+            {
+                Count = productDto.Count,
+                ProductId = productDto.ProductId,
+
+            };
+
+            List<CartDetailsDto> cartDetailsDtos = new() { cartDetailsDto };
+            cartDto.CartDetails = cartDetailsDtos;
+
+
+
+            var response = await _cartService.UpsertCartAsync(cartDto);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Item has been added to shopping cart";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["error"] = response?.Message;
+            }
+            return View(productDto);
+        }
+
 
         public IActionResult Privacy()
         {
