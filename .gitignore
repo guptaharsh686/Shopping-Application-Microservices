@@ -18,3 +18,5 @@
 /Mango/Mango.MessageBus/bin
 /Mango/Mango.Services.EmailAPI/bin
 /Mango/Mango.Services.EmailAPI/obj
+/Mango/Mango.Services.OrderAPI/bin
+/Mango/Mango.Services.OrderAPI/obj
