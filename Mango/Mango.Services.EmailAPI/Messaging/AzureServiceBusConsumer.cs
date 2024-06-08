@@ -56,16 +56,12 @@ namespace Mango.Services.EmailAPI.Messaging
             }
         }
 
-        private async Task ErrorHandler(ProcessErrorEventArgs args)
+        private Task ErrorHandler(ProcessErrorEventArgs args)
         {
             //Can send an email to user for now just console.log
             Console.WriteLine(args.Exception.ToString());
             return Task.CompletedTask;
         }
 
-        private Task _emailCartProcessor_ProcessMessageAsync(ProcessMessageEventArgs arg)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
