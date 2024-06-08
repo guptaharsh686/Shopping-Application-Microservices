@@ -14,3 +14,5 @@
 /Mango/Mango.Services.ProductAPI/bin
 /Mango/Mango.Services.ShoppingCartAPI/bin
 /Mango/Mango.Services.ShoppingCartAPI/obj
+/Mango/Mango.MessageBus/obj
+/Mango/Mango.MessageBus/bin
