@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Mango.Services.EmailAPI.Data;
 using Mango.Services.EmailAPI.Messaging;
 using Mango.Services.EmailAPI.Extensions;
+using Mango.Services.EmailAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //We dont want new object for each request hence singleton
 builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 
-
+//As we cannot directly get scopped dbcontext in a singleton email service
+var optionBuilder = new DbContextOptionsBuilder<AppDbContext>();
+optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddSingleton(new EmailService(optionBuilder.Options));
 
 
 builder.Services.AddControllers();
