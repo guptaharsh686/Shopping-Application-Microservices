@@ -1,12 +1,12 @@
-using Mango.MessageBus;
-using Mango.Services.ShoppingCartAPI.Data;
-using Mango.Services.ShoppingCartAPI.Extensions;
-using Mango.Services.ShoppingCartAPI.Service;
-using Mango.Services.ShoppingCartAPI.Service.IService;
-using Mango.Services.ShoppingCartAPI.Utility;
+using Mango.Services.OrderAPI.Service;
+using Mango.Services.OrderAPI.Service.IService;
+using Mango.Services.OrderAPI.Utility;
+using Mango.Services.OrderAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Mango.Services.OrderAPI.Extensions;
+using Mango.MessageBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,13 +26,10 @@ builder.Services.AddScoped<BackendAPIAuthenticationHttpClientHandler>();
 builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]))
     .AddHttpMessageHandler<BackendAPIAuthenticationHttpClientHandler>();
 
-builder.Services.AddHttpClient("Coupon", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]))
-    .AddHttpMessageHandler<BackendAPIAuthenticationHttpClientHandler>();
 
 
 
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IMessageBus, MessageBus>();
 
 
