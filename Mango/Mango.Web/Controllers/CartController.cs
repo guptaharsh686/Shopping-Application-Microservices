@@ -23,6 +23,12 @@ namespace Mango.Web.Controllers
             return View(await LoadCartBasedOnLoggedInUser());
         }
 
+        [Authorize]
+        public async Task<IActionResult> Checkout()
+        {
+            return View(await LoadCartBasedOnLoggedInUser());
+        }
+
         private async Task<CartDto> LoadCartBasedOnLoggedInUser()
         {
             //Get userId of logged in user from claims which are configured in auth controller signed in user.
