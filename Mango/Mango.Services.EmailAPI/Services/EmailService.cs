@@ -34,7 +34,7 @@ namespace Mango.Services.EmailAPI.Services
             await LogAndEmail(message.ToString(),cartDto.CartHeader.Email);
         }
 
-        private async Task<bool> LogAndEmail(string message,string email)
+        public async Task<bool> LogAndEmail(string message,string email)
         {
             try
             {

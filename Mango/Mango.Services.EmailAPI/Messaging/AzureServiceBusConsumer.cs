@@ -10,20 +10,24 @@ namespace Mango.Services.EmailAPI.Messaging
     {
         private readonly string serviceBusConnectionString;
         private readonly string emailCartQueue;
+        private readonly string userRegistrationQueue;
         private readonly IConfiguration _configuration;
         private readonly EmailService _emailService;
         private ServiceBusProcessor _emailCartProcessor;
+        private ServiceBusProcessor _userRegistrationProcessor;
 
         public AzureServiceBusConsumer(IConfiguration configuration, EmailService emailService)
         {
             _configuration = configuration;
             serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
             emailCartQueue = _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCartQueue");
+            userRegistrationQueue = _configuration.GetValue<string>("TopicAndQueueNames:IdentityRegistrationQueue");
             var client = new ServiceBusClient(serviceBusConnectionString);
             _emailService = emailService;
 
             //processor to listen to topic or queue
             _emailCartProcessor = client.CreateProcessor(emailCartQueue);
+            _userRegistrationProcessor = client.CreateProcessor(userRegistrationQueue);
         }
 
         public async Task Start()
@@ -31,12 +35,39 @@ namespace Mango.Services.EmailAPI.Messaging
             _emailCartProcessor.ProcessMessageAsync += OnEmailCartRequestReceived;
             _emailCartProcessor.ProcessErrorAsync += ErrorHandler;
             await _emailCartProcessor.StartProcessingAsync();
+
+            _userRegistrationProcessor.ProcessMessageAsync += OnUserRegistrationRequestReceived;
+            _userRegistrationProcessor.ProcessErrorAsync += ErrorHandler;
+            await _userRegistrationProcessor.StartProcessingAsync();
+
+        }
+
+        private async Task OnUserRegistrationRequestReceived(ProcessMessageEventArgs args)
+        {
+            var message = args.Message;
+            var body = Encoding.UTF8.GetString(message.Body);
+
+            var email = JsonConvert.DeserializeObject<string>(body);
+
+            try
+            {
+                await _emailService.LogAndEmail($"User with email {email} registered!", "GodAdmin@HarshGupta.com");
+                await args.CompleteMessageAsync(args.Message);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         public async Task Stop()
         {
             await _emailCartProcessor.StartProcessingAsync();
             await _emailCartProcessor.DisposeAsync();
+
+            await _userRegistrationProcessor.StartProcessingAsync();
+            await _userRegistrationProcessor.DisposeAsync();
         }
 
         private async Task OnEmailCartRequestReceived(ProcessMessageEventArgs args)
