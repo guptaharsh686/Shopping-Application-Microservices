@@ -65,7 +65,8 @@ namespace Mango.Services.OrderAPI.Controllers
                 {
                     SuccessUrl = stripeRequestDto.ApprovedUrl,
                     CancelUrl = stripeRequestDto.CancelUrl,
-                    LineItems = new List<SessionLineItemOptions>()
+                    LineItems = new List<SessionLineItemOptions>(),
+                    Mode = "payment"
                 };
 
                 foreach(var item in stripeRequestDto.OrderHeader.OrderDetails)
