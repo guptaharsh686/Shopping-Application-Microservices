@@ -34,5 +34,15 @@ namespace Mango.Web.Service
                 Data = stripeRequestDto
             });
         }
+
+        public async Task<ResponseDto?> ValidateStripeSession(int orderHeaderId)
+        {
+            return await _baseService.SendAsync(new RequestDto
+            {
+                ApiType = ApiType.POST,
+                Url = StaticDetails.OrderAPIBase + $"/api/order/ValidateStripeSession",
+                Data = orderHeaderId
+            });
+        }
     }
 }

@@ -6,7 +6,10 @@ namespace Mango.Web.Service.IService
     {
         Task<ResponseDto?> CreateOrder(CartDto cartDto);
 
+        Task<ResponseDto?> ValidateStripeSession(int orderHeaderId);
+
         Task<ResponseDto?> CreateStripeSession(StripeRequestDto stripeRequestDto);
+
 
 
     }
