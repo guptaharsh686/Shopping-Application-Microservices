@@ -20,7 +20,7 @@ namespace Mango.Web.Service
             return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = ApiType.POST,
-                Url = StaticDetails.CouponAPIBase + $"/api/order/CreateOrder",
+                Url = StaticDetails.OrderAPIBase + $"/api/order/CreateOrder",
                 Data = cartDto
             });
         }
