@@ -53,8 +53,13 @@ namespace Mango.Web.Controllers
             {
                 TempData["error"] = "Please try again";
             }
-            return View(LoadCartBasedOnLoggedInUser());
+            return View();
 
+        }
+
+        public async Task<IActionResult> Confirmation(int orderId)
+        {
+            return View(orderId);
         }
 
         private async Task<CartDto> LoadCartBasedOnLoggedInUser()
