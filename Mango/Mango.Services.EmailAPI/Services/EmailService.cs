@@ -1,4 +1,5 @@
 ﻿using Mango.Services.EmailAPI.Data;
+using Mango.Services.EmailAPI.Message;
 using Mango.Services.EmailAPI.Models;
 using Mango.Services.EmailAPI.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,12 @@ namespace Mango.Services.EmailAPI.Services
             {
                 return false;
             }
+        }
+
+        public async Task LogOrderPlaced(RewardMessage rewardMessage)
+        {
+            string message = "New Order Placed. <br/> Order ID : " + rewardMessage.OrderId;
+            await LogAndEmail(message, "GodAdmin@HarshGupta.com");
         }
     }
 }
