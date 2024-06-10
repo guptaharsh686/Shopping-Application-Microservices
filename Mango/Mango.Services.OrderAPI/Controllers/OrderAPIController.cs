@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Mango.MessageBus;
 using Mango.Services.OrderAPI.Data;
 using Mango.Services.OrderAPI.Models;
 using Mango.Services.OrderAPI.Models.Dtos;
@@ -18,14 +19,18 @@ namespace Mango.Services.OrderAPI.Controllers
         private readonly AppDbContext _db;
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
+        private readonly IMessageBus _messageBus;
         protected ResponseDto _responseDto;
+        private readonly IConfiguration _configuration;
 
-        public OrderAPIController(AppDbContext db, IProductService productService, IMapper mapper)
+        public OrderAPIController(AppDbContext db, IProductService productService, IMapper mapper,IConfiguration configuration, IMessageBus messageBus)
         {
             _db = db;
             _productService = productService;
             _mapper = mapper;
             _responseDto = new ResponseDto();
+            _configuration = configuration;
+            _messageBus = messageBus;
         }
 
         [Authorize]
@@ -142,6 +147,17 @@ namespace Mango.Services.OrderAPI.Controllers
                     orderHeader.PaymentIntentId = paymentIntent.Id;
                     orderHeader.Status = SD.Status_Approved;
                     _db.SaveChanges();
+
+                    //publish message to topic to be reached to multiple subscribers
+                    RewardsDto rewardsDto = new RewardsDto()
+                    {
+                        OrderId = orderHeader.OrderHeaderId,
+                        RewardsActivity = Convert.ToInt32(orderHeader.OrderTotal),
+                        UserId = orderHeader.UserId
+                    };
+
+                    string topicName = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreatedTopic");
+                    await _messageBus.PublishMessage(rewardsDto, topicName);
 
                     _responseDto.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
                 }
