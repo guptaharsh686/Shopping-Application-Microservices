@@ -201,7 +201,7 @@ namespace Mango.Services.OrderAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetOrder/{orderId: int}")]
+        [HttpGet("GetOrder/{orderId}")]
         public ResponseDto? Get(int orderId)
         {
             try
@@ -218,7 +218,7 @@ namespace Mango.Services.OrderAPI.Controllers
         }
 
         [Authorize]
-        [HttpPost("UpdateOrderStatus/{orderId:int}")]
+        [HttpPost("UpdateOrderStatus/{orderId}")]
         public async Task<ResponseDto> UpdateOrderStatus(int orderId,[FromBody] string newStatus)
         {
             try
