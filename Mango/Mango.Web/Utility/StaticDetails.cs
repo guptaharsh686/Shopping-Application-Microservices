@@ -11,9 +11,9 @@
         public static string OrderAPIBase { get; set; }
 
 
-        public const string RoleAdmin  = "ADMIN";
+        public const string RoleAdmin  = "admin";
 
-        public const string RoleCustomer  = "CUSTOMER";
+        public const string RoleCustomer  = "customer";
 
         public const string TokenCookie = "JWTToken";
 
