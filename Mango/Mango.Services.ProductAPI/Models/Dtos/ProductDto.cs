@@ -13,6 +13,13 @@ namespace Mango.Services.ProductAPI.Models.Dtos
 
         public string CategoryName { get; set; }
 
-        public string ImageUrl { get; set; }
-    }
+		//global refrence with domain name
+		public string? ImageUrl { get; set; }
+
+		//path respective to wwwroot
+		public string? ImageLocalPath { get; set; }
+
+		public IFormFile? Image { get; set; }
+
+	}
 }

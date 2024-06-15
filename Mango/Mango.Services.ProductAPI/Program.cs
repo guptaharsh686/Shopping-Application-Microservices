@@ -60,6 +60,9 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//add path to use static files
+app.UseStaticFiles();
+
 app.MapControllers();
 
 // Apply pending migrations
