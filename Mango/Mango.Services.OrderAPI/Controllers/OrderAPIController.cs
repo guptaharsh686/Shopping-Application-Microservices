@@ -226,7 +226,7 @@ namespace Mango.Services.OrderAPI.Controllers
                 OrderHeader orderHeader = _db.OrderHeaders.First(u => u.OrderHeaderId == orderId);
                 if(orderHeader != null)
                 {
-                    if(newStatus == SD.Status_Refunded)
+                    if(newStatus == SD.Status_Cancelled)
                     {
                         var options = new RefundCreateOptions
                         {

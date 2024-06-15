@@ -43,7 +43,7 @@ namespace Mango.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string status)
         {
             IEnumerable<OrderHeaderDto> list;
 
@@ -58,6 +58,20 @@ namespace Mango.Web.Controllers
             if(response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<OrderHeaderDto>>(Convert.ToString(response.Result));
+                switch (status)
+                {
+                    case "approved":
+                        list = list.Where(u => u.Status == StaticDetails.Status_Approved);
+                        break;
+					case "readyforpickup":
+						list = list.Where(u => u.Status == StaticDetails.Status_ReadyForPickup);
+						break;
+					case "cancelled":
+						list = list.Where(u => u.Status == StaticDetails.Status_Cancelled || u.Status == StaticDetails.Status_Refunded);
+						break;
+                    default:
+                        break;
+				}
             }
             else
             {
@@ -66,5 +80,48 @@ namespace Mango.Web.Controllers
 
             return Json(new { data = list });
         }
+
+        [HttpPost("OrderReadyForPickup")]
+        public async Task<IActionResult> OrderReadyForPickup(int orderId)
+        {
+            ResponseDto response = await _orderService.UpdateOrderStatus(orderId,StaticDetails.Status_ReadyForPickup);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Status updated sucessfully";
+                return RedirectToAction(nameof(OrderDetail), new { orderId = orderId });
+            }
+
+            return View();
+        }
+
+        [HttpPost("CompleteOrder")]
+        public async Task<IActionResult> CompleteOrder(int orderId)
+        {
+            ResponseDto response = await _orderService.UpdateOrderStatus(orderId, StaticDetails.Status_Completed);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Status updated sucessfully";
+                return RedirectToAction(nameof(OrderDetail), new { orderId = orderId });
+            }
+
+            return View();
+        }
+
+        [HttpPost("CancelOrder")]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            ResponseDto response = await _orderService.UpdateOrderStatus(orderId, StaticDetails.Status_Cancelled);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Status updated sucessfully";
+                return RedirectToAction(nameof(OrderDetail), new { orderId = orderId });
+            }
+
+            return View();
+        }
+
     }
 }
