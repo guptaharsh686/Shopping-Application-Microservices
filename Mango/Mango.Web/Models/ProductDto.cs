@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mango.Web.Utility;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mango.Web.Models
@@ -18,6 +19,8 @@ namespace Mango.Web.Models
 
 		public string? ImageLocalPath { get; set; }
 
+        [MaxFileSize(1)]
+        [AllowedExtension(new string[] {".jpg",".png"})]
         public IFormFile? Image { get; set; }
 
 		[Range(1,100)]

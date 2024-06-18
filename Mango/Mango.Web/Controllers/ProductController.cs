@@ -109,17 +109,21 @@ namespace Mango.Web.Controllers
         [HttpPost]
 		public async Task<IActionResult> ProductEdit(ProductDto productDto)
 		{
-			var response = await _productService.UpdateProduct(productDto);
+            if(ModelState.IsValid)
+            {
+                var response = await _productService.UpdateProduct(productDto);
 
-            if(response != null && response.IsSuccess )
-            {
-                TempData["success"] = "Product details updated sucessfully!";
-                return RedirectToAction(nameof(ProductIndex));
+                if (response != null && response.IsSuccess)
+                {
+                    TempData["success"] = "Product details updated sucessfully!";
+                    return RedirectToAction(nameof(ProductIndex));
+                }
+                else
+                {
+                    TempData["error"] = response?.Message;
+                }
             }
-            else
-            {
-                TempData["error"] = response?.Message;
-            }
+			
             return View(productDto);
 		}
 
