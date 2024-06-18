@@ -111,11 +111,43 @@ namespace Mango.Services.ProductAPI.Controllers
         [HttpPut]
         [Authorize(Roles = "admin")]
 
-        public ResponseDto put([FromBody] ProductDto productDto)
+        public ResponseDto put(ProductDto productDto)
         {
             try
             {
                 var product = _mapper.Map<Product>(productDto);
+
+                //If the image is not null meaning a new image has been uploaded
+                if (productDto.Image != null)
+                {
+                    //delete prev image first
+                    if (!string.IsNullOrEmpty(product.ImageLocalPath))
+                    {
+                        var oldfilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), product.ImageLocalPath);
+                        FileInfo fileInfo = new FileInfo(oldfilePathDirectory);
+                        if (fileInfo.Exists)
+                        {
+                            fileInfo.Delete();
+                        }
+                    }
+
+
+                    var fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
+
+                    var filePath = @"wwwroot\ProductImages\" + fileName;
+
+                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+                    {
+                        productDto.Image.CopyTo(fileStream);
+                    }
+
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+                    product.ImageLocalPath = filePath;
+                }
+
                 _db.Products.Update(product);
                 _db.SaveChanges();
                 responseDto.Result = _mapper.Map<ProductDto>(product);
