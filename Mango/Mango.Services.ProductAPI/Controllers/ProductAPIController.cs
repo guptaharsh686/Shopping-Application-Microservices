@@ -137,7 +137,15 @@ namespace Mango.Services.ProductAPI.Controllers
             try
             {
                 var product = _db.Products.First(p => p.ProductId == id);
-                
+                if (!string.IsNullOrEmpty(product.ImageLocalPath))
+                {
+                    var oldfilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), product.ImageLocalPath);
+                    FileInfo fileInfo = new FileInfo(oldfilePathDirectory);
+                    if(fileInfo.Exists)
+                    {
+                        fileInfo.Delete();
+                    }
+                }
                 _db.Products.Remove(product);
                 _db.SaveChanges();
                 
