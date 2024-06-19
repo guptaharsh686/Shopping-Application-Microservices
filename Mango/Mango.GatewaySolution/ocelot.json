@@ -224,7 +224,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/order/GetOrders?userId={userId}",
+      "DownstreamPathTemplate": "/api/order/GetOrders?userId={id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -232,15 +232,14 @@
           "Port": 7004
         }
       ],
-      "UpstreamPathTemplate": "/api/order/GetOrders?userId=''",
-      "UpstreamHttpMethod": [ "GET" ],
-      //Using these post and put route will require authentication so configure them also
+      "UpstreamPathTemplate": "/api/order/GetOrders?userId={id}",
+      "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/order/GetOrders?userId={userId}",
+      "DownstreamPathTemplate": "/api/order/GetOrders?userId=''",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -249,14 +248,13 @@
         }
       ],
       "UpstreamPathTemplate": "/api/order/GetOrders/",
-      "UpstreamHttpMethod": [ "GET" ],
-      //Using these post and put route will require authentication so configure them also
+      "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/api/order/GetOrder/{orderId}",
+      "DownstreamPathTemplate": "/api/order/GetOrder/{id}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -264,7 +262,7 @@
           "Port": 7004
         }
       ],
-      "UpstreamPathTemplate": "/api/order/GetOrder/{orderId}",
+      "UpstreamPathTemplate": "/api/order/GetOrder/{id}",
       "UpstreamHttpMethod": [ "GET" ],
       //Using these post and put route will require authentication so configure them also
       "AuthenticationOptions": {
