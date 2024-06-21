@@ -4,8 +4,17 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddAppAuthentication();
-//to use seperate ocelot json file
-builder.Configuration.AddJsonFile("ocelot.json",optional: false, reloadOnChange: true);
+if (builder.Environment.EnvironmentName.ToString().ToLower().Equals("production"))
+{
+    builder.Configuration.AddJsonFile("ocelot.Production.json", optional: false, reloadOnChange: true);
+
+}
+else
+{
+    //to use seperate ocelot json file
+    builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+}
+
 builder.Services.AddOcelot(builder.Configuration);
 
 var app = builder.Build();
