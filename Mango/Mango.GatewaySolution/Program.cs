@@ -4,7 +4,7 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddAppAuthentication();
-if (builder.Environment.ToString().ToLower().Equals("Production"))
+if (builder.Environment.EnvironmentName.ToString().ToLower().Equals("Production"))
 {
     builder.Configuration.AddJsonFile("ocelot.Production.json", optional: false, reloadOnChange: true);
 
