@@ -77,13 +77,8 @@ namespace Mango.Services.ProductAPI.Controllers
                 if(productDto.Image != null)
                 {
                     var fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
+                    
                     var filePath = @"wwwroot\ProductImages\" + fileName;
-
-                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-                    {
-                        filePath = @"ProductImages\" + fileName;
-                    }
-
 
                     var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
 
@@ -140,11 +135,6 @@ namespace Mango.Services.ProductAPI.Controllers
                     var fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
 
                     var filePath = @"wwwroot\ProductImages\" + fileName;
-
-                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-                    {
-                        filePath = @"ProductImages\" + fileName;
-                    }
 
                     var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
 
